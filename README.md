@@ -55,9 +55,11 @@ multitool/
 ├── skills/
 │   ├── multitool/SKILL.md      # the router skill (v4)
 │   └── unlazy/SKILL.md         # completion-discipline gates (adapted from Leonxlnx/unlazy, MIT)
+├── dist/                       # upload-ready skill zips
 ├── scheduled/
 │   └── weekly-evolution.md     # optional weekly self-review prompt
 ├── assets/                     # logo and banner (SVG + PNG)
+├── INSTALL.md                  # step-by-step install guide
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── LICENSE
@@ -66,20 +68,15 @@ multitool/
 
 ## Install
 
-### Claude apps (claude.ai, desktop, mobile)
-1. Download this repo as a ZIP and unpack it.
-2. Zip the `skills/multitool` folder, and separately the `skills/unlazy` folder.
-3. In Claude go to **Settings → Capabilities → Skills → Upload skill** and upload both.
+**Quick start:** download [`multitool-skill.zip`](dist/multitool-skill.zip) and [`unlazy-skill.zip`](dist/unlazy-skill.zip) and upload both in Claude via **Settings → Capabilities → Skills → Upload skill**.
 
-### Claude Code
+Claude Code users:
 ```bash
 git clone https://github.com/worldhellow471-oss/multitool.git
-mkdir -p ~/.claude/skills
 cp -r multitool/skills/* ~/.claude/skills/
 ```
 
-### Optional: weekly self-review
-Create a scheduled task with the prompt in [`scheduled/weekly-evolution.md`](scheduled/weekly-evolution.md). It only proposes updates. You approve every version.
+📘 **Full step-by-step guide** (Windows/macOS/Linux, checking that it works, weekly self-review, updating, troubleshooting): **[INSTALL.md](INSTALL.md)**
 
 ## Usage
 
