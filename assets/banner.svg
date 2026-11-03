@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFC15E"/><stop offset=".35" stop-color="#C3A6FF"/><stop offset=".7" stop-color="#8CF5DE"/><stop offset="1" stop-color="#9CCBFF"/></linearGradient></defs>
+  <rect width="1280" height="320" rx="32" fill="#0A0D1C"/>
+  <image href="logo.svg" x="64" y="40" width="240" height="240"/>
+  <text x="350" y="178" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="104" font-weight="800" letter-spacing="6" fill="url(#g)">MULTITOOL</text>
+  <text x="354" y="236" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="30" fill="#AEB6CF">One skill to route every task to the best tool · Claude</text>
+</svg>

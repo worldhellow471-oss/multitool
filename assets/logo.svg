@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#141A33"/><stop offset="1" stop-color="#0A0D1C"/>
+    </linearGradient>
+    <linearGradient id="t1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF7A45"/><stop offset="1" stop-color="#FFC15E"/></linearGradient>
+    <linearGradient id="t2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#C3A6FF"/></linearGradient>
+    <linearGradient id="t3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#14C8A8"/><stop offset="1" stop-color="#8CF5DE"/></linearGradient>
+    <linearGradient id="t4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#2F8BFF"/><stop offset="1" stop-color="#9CCBFF"/></linearGradient>
+    <linearGradient id="h" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E9ECF5"/><stop offset="1" stop-color="#B8BFD3"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <g transform="translate(256 330)">
+    <!-- blade -->
+    <g transform="rotate(-48)"><path d="M-17 0 V-150 Q-17 -196 18 -214 Q17 -150 17 -60 V0 Z" fill="url(#t1)"/></g>
+    <!-- screwdriver -->
+    <g transform="rotate(-16)"><rect x="-12" y="-196" width="24" height="196" rx="12" fill="url(#t2)"/><rect x="-6" y="-226" width="12" height="40" rx="4" fill="url(#t2)"/></g>
+    <!-- wrench -->
+    <g transform="rotate(16)"><rect x="-13" y="-170" width="26" height="170" rx="13" fill="url(#t3)"/>
+      <circle cx="0" cy="-196" r="32" fill="url(#t3)"/><rect x="-10" y="-232" width="20" height="30" rx="3" fill="#11162E"/></g>
+    <!-- AI spark -->
+    <g transform="rotate(48)"><rect x="-12" y="-150" width="24" height="150" rx="12" fill="url(#t4)"/>
+      <path d="M0 -222 C4 -196 10 -190 36 -186 C10 -182 4 -176 0 -150 C-4 -176 -10 -182 -36 -186 C-10 -190 -4 -196 0 -222 Z" fill="#FFFFFF"/></g>
+    <!-- handle -->
+    <rect x="-46" y="-26" width="92" height="140" rx="40" fill="url(#h)"/>
+    <circle cx="0" cy="0" r="17" fill="#141A33"/><circle cx="0" cy="0" r="7" fill="#E9ECF5"/>
+    <rect x="-22" y="60" width="44" height="8" rx="4" fill="#141A33" opacity=".35"/>
+    <rect x="-22" y="78" width="44" height="8" rx="4" fill="#141A33" opacity=".35"/>
+  </g>
+</svg>
