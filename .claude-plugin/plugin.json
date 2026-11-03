@@ -1,0 +1,10 @@
+{
+  "name": "multitool",
+  "version": "4.0.0",
+  "description": "One Claude skill that routes every task to the best installed skill, plugin, connector or model, and keeps improving itself. Includes the Unlazy completion-gates skill.",
+  "author": { "name": "worldhellow471-oss" },
+  "homepage": "https://github.com/worldhellow471-oss/multitool",
+  "repository": "https://github.com/worldhellow471-oss/multitool",
+  "license": "MIT",
+  "keywords": ["claude", "skills", "router", "agents", "productivity", "unlazy"]
+}

@@ -29,7 +29,23 @@ Install **both**. Setup takes about 2 minutes.
 
 ---
 
-## Option B: Claude Code (terminal)
+## Option B: Claude Code, one command (recommended)
+
+Inside Claude Code run:
+```
+/plugin marketplace add worldhellow471-oss/multitool
+/plugin install multitool@multitool
+```
+This installs both `multitool` and `unlazy`. To update later, run `/plugin marketplace update multitool`.
+
+Alternatively, with the open [skills CLI](https://github.com/vercel-labs/skills):
+```bash
+npx skills add worldhellow471-oss/multitool
+```
+
+---
+
+## Option C: Claude Code, manual copy
 
 **Personal install (every project):**
 

@@ -70,10 +70,10 @@ multitool/
 
 **Quick start:** download [`multitool-skill.zip`](dist/multitool-skill.zip) and [`unlazy-skill.zip`](dist/unlazy-skill.zip) and upload both in Claude via **Settings → Capabilities → Skills → Upload skill**.
 
-Claude Code users:
-```bash
-git clone https://github.com/worldhellow471-oss/multitool.git
-cp -r multitool/skills/* ~/.claude/skills/
+Claude Code, one command:
+```
+/plugin marketplace add worldhellow471-oss/multitool
+/plugin install multitool@multitool
 ```
 
 📘 **Full step-by-step guide** (Windows/macOS/Linux, checking that it works, weekly self-review, updating, troubleshooting): **[INSTALL.md](INSTALL.md)**
