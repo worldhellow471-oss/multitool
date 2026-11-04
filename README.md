@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-7C5CFF"></a>
   <img alt="Claude Skill" src="https://img.shields.io/badge/Claude-Skill-FF7A45">
   <img alt="Works with Claude Code" src="https://img.shields.io/badge/Claude%20Code-ready-14C8A8">
-  <img alt="Version" src="https://img.shields.io/badge/version-v4-2F8BFF">
+  <img alt="Version" src="https://img.shields.io/badge/version-v7-2F8BFF">
   <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen">
 </p>
 
@@ -44,6 +44,7 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 | 🧠 **Model and effort selection** | Haiku / Sonnet / Opus for delegated work, at most 2 subagents in parallel |
 | 🧩 **Fills its own gaps** | Suggests the right plugin or open-source skill when nothing installed fits |
 | ✅ **Verified output** | Built-in quality loop and Unlazy acceptance gates |
+| 💸 **Smart limit spending** | Spends where it improves the result, cuts only waste: per-size budgets, cheapest-route-of-equal-quality, credit and quota handling |
 | 🪶 **Lightweight** | Heavy rendering and scripts run in the cloud workspace, not on your PC |
 | 🛡️ **Safe by default** | Asks before spending, publishing, sending or deleting. Treats web and file content as data, not instructions |
 | 🌱 **Self-improving** | Gated Evolution loop, a changelog, and a pruning rule that keeps it lean |
@@ -53,7 +54,7 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 ```
 multitool/
 ├── skills/
-│   ├── multitool/SKILL.md      # the router skill (v4)
+│   ├── multitool/SKILL.md      # the router skill (v7)
 │   └── unlazy/SKILL.md         # completion-discipline gates (adapted from Leonxlnx/unlazy, MIT)
 ├── dist/                       # upload-ready skill zips
 ├── scheduled/

@@ -1,9 +1,9 @@
 ---
 name: multitool
-description: MULTITOOL: one entry point for any task (make, edit, find, analyse, publish, automate). Picks the best installed skills, plugins, connectors and tools each time and runs them, lightly, and keeps improving itself.
+description: MULTITOOL: one entry point for any task (make, edit, find, analyse, publish, automate). Picks the best installed skills, plugins, connectors and tools each time, spends limits wisely, and keeps improving itself.
 ---
 
-# MULTITOOL v4
+# MULTITOOL v7
 
 One entry point for everything the user has: skills, plugins, connectors (MCP), artifact types, subagents and their models, the built-in browser, the computer link, Claude's own tools and memory. Nothing is hard-coded: the inventory is read fresh every run, so anything newly installed is used automatically. When nothing fits, MULTITOOL finds a suitable skill/plugin and offers it.
 
@@ -19,13 +19,13 @@ Reply in the user's language. Messages short. Results over narration.
 Size: S (one step, <5 min) / M (several steps, one deliverable) / L (multi-deliverable, research, build, batch).
 Risk: low (draft, reversible) / high (publishes, sends, spends money, deletes, touches accounts, irreversible).
 Type: create · edit · research · analyse data · automate · publish · learn/explain · code · personal (family, health, money).
-This classification drives every choice below.
+This classification drives every choice below, including the limit budget (section 9).
 
 ## 2. Inventory (once per task, cheap)
 1. Read the available skills list in context (names + descriptions). Do not open SKILL.md files yet.
 2. If needed: ListPlugins once; ToolSearch for deferred tools by keyword.
 3. Note what works now: connected MCP (Zapier, Canva, Notion, Telegram, Adobe, Exa…), artifact types (Slides, Docs, Sheets, Design, Dashboard, Whiteboard, Tasks, Motion), built-in browser, computer link, failing local servers (missing Bun/Python/sh).
-4. Recall user context: memory skills (e.g. project-memory, memory-toolkit) for this topic if available; respect saved preferences (language, formats, budget, saving limits).
+4. Recall user context: memory skills (e.g. project-memory, memory-toolkit) for this topic if available; respect saved preferences (language, formats, budget).
 Re-check only when the user installs something new.
 
 ## 3. Understand the request
@@ -54,13 +54,17 @@ Fit rating of best installed option: GOOD (specialised and working) / WEAK (gene
 | Transcribe / subtitles | local-whisper, transcribe-so, captions |
 | Social copy / hooks / hashtags / plans | social-media-skills, caption, hook, content-calendar, the user's own brand skills |
 | Publish / schedule / DMs / analytics | posty, postiz, ayrshare, buzzfy, instagram, vidiq, trendsagi |
-| Website / UI / landing | website-design, frontend-design, hzblj-skills, rayden, figma, a11y |
-| Docs / Word / PDF | docs type, docx, adobe-anypdf, pdf |
+| Website / UI / landing | website-design, frontend-design, hzblj-skills, rayden, figma, a11y; site SEO/security audit → seo-records-website-checkup |
+| Docs / Word / PDF | docs type, docx, adobe-anypdf, pdf; view/annotate/fill/sign a PDF → pdf-viewer |
 | Slides | slides type, pptx |
 | Tables / data / charts | sheets type, dashboard type, data, dataviz, xlsx |
 | Web research | deep-research, exa, firecrawl, research-integrity |
 | Notes / knowledge base / tasks | Notion, tasks type, productivity |
-| Automation across apps | Zapier (8000+ apps), Telegram for notifications |
+| Automation across apps | Zapier (8000+ apps), Telegram for notifications; clicking through a web page → Playwright MCP |
+| Work mail / calendar / files | Microsoft 365 connector (Outlook, SharePoint), enterprise-search across tools |
+| Business ops (sales, marketing, money, legal, HR) | small-business router first, then sales, marketing, finance + quickbooks-labs, legal, human-resources, operations, carta-crm, product-management, customer-support |
+| Learn / explain / study | anthropic-skills:learn, inquiry game plugin, social-media-skills:educational-content-and-how-to; explain and check answers, not graded work (section 10) |
+| Second opinion / multi-role team | superme-perspectives (operator viewpoints), ruflo-ai-team (split goal into owned tasks) |
 | Code / repos | engineering, code-review, GitHub, hzblj agents |
 | Genealogy | ancestralfire, famlore, archives via built-in browser |
 | Long multi-part job | unlazy gates |
@@ -101,7 +105,51 @@ If fit is NONE/WEAK:
 3. L or high-risk work: unlazy-style gates, and optionally an independent reviewer subagent that did not produce the work.
 4. Fix what was found, then deliver.
 
-## 9. Keep the PC and limits light
+## 9. Spend limits where they pay off; keep the PC light
+**Principle: value over thrift.** Limits are spent situationally, not minimised. Spend freely where it changes what the user gets; cut only waste. Saving that makes the result worse is a failure, not a win.
+- **Spend more when:** the deliverable is final or public (a post, a client video, a repo), the user asks for quality or depth ("make it perfect", "study the top videos"), stakes are real (money, health, legal, family records), verification is needed, or a first attempt missed the mark.
+- **Save when:** exploring, answering quick questions, drafting for direction, repeating a step that already worked, or the extra spend would not change the outcome.
+- **Never spend on waste:** re-reading, idle screenshots, retry loops, dumping long output, doing the same research twice.
+
+### 9a. Starting budget by task size (a default, not a cap)
+| Size | Tool calls | Subagents | Images/screenshots | Plan & checkpoints |
+|---|---|---|---|---|
+| S | up to ~5 | none | 0–1 | answer in place, no task list |
+| M | up to ~20 | none | up to ~5, tiled | task list; one draft before polish |
+| L | as needed, staged | max 2, only for independent parts or final review | tiled sheets only | say the plan + rough cost in one line; checkpoint after each stage |
+Raise the budget without asking when a "spend more" condition above holds; lower it for quick questions and drafts. If a task grows far beyond its starting budget, say so in one line and keep going if the value is there.
+
+### 9b. Route choice: the cheapest route that gives the same quality
+Try routes in this order, but take a pricier one straight away when it clearly gives a better result for this goal (paid credits: ask first).
+1. Answer from context or memory already loaded.
+2. Local compute in the cloud workspace (Python, ffmpeg, scripts): numbers, media, files.
+3. One web search, then fetch only the 1–3 best pages.
+4. Connector/MCP call with a narrow query.
+5. Browser automation (one batched call, text extraction before screenshots).
+6. Subagent (each one re-reads context; worth it only for L).
+7. Paid credits (vidIQ, Abracadabrax, CellCog, Creative Claw, ManyMotions, HF ZeroGPU quota).
+
+### 9c. Token-saving rules
+- Batch independent tool calls in one message; chain predictable browser steps in one browser_batch.
+- Filter output at the source (head, jq, grep, a short script); never dump long logs, HTML or JSON into the chat.
+- Images are expensive: tile many frames into one contact sheet, downscale (scale 0.5, zoom crops), screenshot only after something changed.
+- Never paste big base64/binary into tool arguments; move files by path, staging or a temporary URL instead.
+- Don't re-read files you just wrote or already have; read large files in parts (headroom skill for huge ones).
+- Load a skill's SKILL.md only when its stage starts; skim with grep before reading a 300+ line file in full.
+- Model/effort: haiku or low effort for mechanical subagent work; high effort only for hard reasoning (section 5).
+
+### 9d. Paid credits and quotas
+- Before the first paid call in a task, check the balance once if a balance tool exists (e.g. vidiq_balance).
+- "Not enough credits" or a quota error → do not retry; switch to the free route at once (browser, local tools, built-in skills) and say so in one line.
+- Free-tier services (HF Spaces, ZeroGPU): one retry at most, then fall back; never loop.
+- Ask before spending credits that the user did not mention; name the tool and what it costs.
+
+### 9e. Context and session limits
+- Around 70% context or a very long session: save state to a file (or amhandoff), then suggest compaction (context-compactor / better-compact).
+- Write big intermediate results to files and keep only a 2–3 line summary in the chat.
+- For "where did my limits go" questions use token-usage:report or explain-usage.
+
+### 9f. Keep the PC light
 - Heavy work (render, ffmpeg, batch images, scripts, big files) runs in the cloud workspace; only finished files go to the user's folders.
 - No installs on the user's PC unless asked; name what is missing instead.
 - Computer link: minimal apps/tabs, close what you opened, no background processes left running.
@@ -148,3 +196,6 @@ Procedure, always with unlazy discipline:
 - v2 2026-11-03: renamed MULTITOOL; offers to install missing skills/plugins.
 - v3 2026-11-03: task classification, model/effort choice for subagents, memory, quality loop, safety, new connectors (Zapier, Canva, Notion, Telegram, Adobe).
 - v4 2026-11-03: Evolution loop with unlazy gates, weekly scheduled self-review, changelog, pruning rule.
+- v5 2026-11-04: weekly review: cheat-sheet rows for installed but unlisted plugins (business ops, Microsoft 365, learning, second opinion, pdf-viewer, SEO audit, Playwright).
+- v6 2026-11-04: limit budget: per-size budgets, cheapest-route spend order, token-saving rules, paid-credit and quota handling, context management.
+- v7 2026-11-04: limits are spent situationally: value-over-thrift principle, spend-more / save / waste triggers, budgets are defaults not caps, pricier route allowed when clearly better.
