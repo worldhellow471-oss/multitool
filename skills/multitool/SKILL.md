@@ -3,7 +3,7 @@ name: multitool
 description: "MULTITOOL: one entry point for any multi-step task. It picks the best installed skills, plugins, connectors, AI sites and subagent models, checks the result and spends limits where they pay off. Use on /multitool, or on any request to make, edit, convert, find, research, analyse, plan, publish, schedule or automate something, in any language. Russian examples: сделай, создай, смонтируй, отредактируй, найди, изучи, проанализируй, опубликуй, автоматизируй, улучши. Not for small talk, a one-line fact, a quick translation or a tiny edit, or when the user names one exact skill or tool (then use that one directly)."
 ---
 
-# MULTITOOL v12
+# MULTITOOL v13
 
 Router in front of everything installed. Companions: `my-profile` (who the user is: language, formats, brands, dislikes) and `multitool-recipes` (tested step-by-step pipelines). The skill list in context is the source of truth; never trust a remembered list over it.
 
@@ -88,10 +88,23 @@ A skill cannot change the current chat's model, and it does not reliably know wh
 - **Stall rule:** about 10 tool calls without visible progress → stop, re-plan in one line, take another route.
 - L tasks: send a draft early so the user can redirect.
 
+### 7b. Critical check: stop and look (without killing the result)
+Run it after each step whose result is visible or hard to undo: a crop, a cut list, a generation, the first render, a chosen source, a number used later. Don't run it after every tool call.
+1. **Measure, don't assume:** check sizes, durations, edges and formats with a probe (ffprobe, PIL, identify) before acting on them.
+2. **Look at the real output:** the image, a frame sheet or the numbers, not what you expected. Compare it with the goal and the original. Would the user say "not that"?
+3. **Evidence, not mood:** name a concrete defect, e.g. "the crop cut off the roof", "the logo is still visible", "I assumed 2000 px, it is 2560". No concrete defect → it's fine, move on.
+4. **Defect found:** one line in the user's language: "Stop: X is wrong because Y. Redoing: Z." Fix the cause (a wrong assumption → measure it), not the symptom. Go back only to the broken step and keep everything that works.
+5. **Brakes, so the doubt doesn't kill the result:**
+   - Compare the new version with the previous one side by side and keep the better one. Never trade a good result for a "safer" but worse one (heavy grading → washed out).
+   - At most 2 fix rounds per step. Then deliver the best version and name the remaining flaw honestly, with options.
+   - Don't second-guess the user's explicit choices or redo what they approved.
+   - A matter of taste, not a defect → deliver it and offer one alternative; don't redo it silently.
+
 ## 8. Quality loop (before "done")
 1. Re-read the request: every requirement has a result or a stated gap.
 2. Verify for real: facts against sources, numbers by running them, files by opening them, pages by looking, videos by duration, size and a frame sheet.
 3. L or high-risk work: `unlazy` gates; optionally an independent reviewer subagent.
+4. Final 7b look: is the deliverable better than the input and the previous version? If yes, deliver; if not, deliver the better one and say why.
 Quality bars:
 - **Reel:** hook in the first 2 s, no repeated shots, voice clearly above the music, readable subtitles, under 100 MB.
 - **Photo:** the resolution actually reached, no AI artefacts on faces, text or edges.
@@ -138,14 +151,15 @@ Spend where the user sees or relies on the result: the deliverable, its quality,
    - G4: section 10 unchanged;
    - G5: every new rule names a tool, a trigger and an action;
    - G6: every removed rule is named in the changelog line with a reason;
-   - G7: ≤ 200 lines.
+   - G7: ≤ 200 lines;
+   - G8: 7b (the critical check and its brakes) is kept.
 3. Make the smallest change that fixes the evidence. Remove rules that never fired rather than piling up new ones.
 4. Gates pass → `propose_skills` (improvement, full file) with a 2–3 line summary. A gate fails → say so and don't propose.
 5. Make one proposal per chat unless the user asks for more. The user approves every version.
 
 ## 12. Examples
 - "/multitool make a 44 s reel from my latest clips" → M/L, create · R1 + my-profile (9:16, hook, voice above the music) · ffmpeg locally · frame-sheet QC · deliver in chat (over 30 MB).
-- "/multitool turn this render into a real 4K photo" → M, edit · R2: crop the logo, FLUX Kontext, upscale, light grade · quota out → say so, offer a paid route or a retry later.
+- "/multitool turn this render into a real 4K photo" → M, edit · R2: measure the image, crop the logo, look at the crop (7b), FLUX Kontext, upscale, light grade · quota out → say so, offer a paid route or a retry later.
 - "/multitool what's the capital of Peru" → don't route: answer in one line.
 - "/multitool post this on Instagram on Friday" → high risk, publish · preflight the publishing connector or plugin · prepare everything · ask before publishing.
 
@@ -155,3 +169,4 @@ Spend where the user sees or relies on the result: the deliverable, its quality,
 - v12 2026-11-04:
   - **added:** a trigger-rich description; a concrete preflight; honest 5a/5c; a stall rule; examples.
   - **removed:** the long cheat-sheet (it went stale; the live list is the source); numeric call budgets (nobody counted them); the red-flag table (merged into 9); user-specific settings (now in my-profile); the G6 "keep old rules" gate (it blocked pruning).
+- v13 2026-11-04: 7b, a critical check at key steps (measure, look, concrete defect, fix the cause) with brakes (compare with the previous version, at most 2 rounds, respect the user's choices); a final 7b look in the quality loop. Nothing removed.

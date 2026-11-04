@@ -18,10 +18,10 @@ Tested pipelines. Follow the matching recipe step by step instead of improvising
 8. QC: 10 frames tiled, levels per section, duration exact, size < 100 MB. Deliver in chat (> 30 MB can't be written to the PC).
 
 ## R2. Render or sketch → real photo, 4K
-1. Crop away logos/plates rather than painting over them; check the exact band edge by row brightness. Removing someone else's logo is for the user's personal use only: if the result will be published or sold, say that the render author's rights apply.
+1. Measure the real size first (PIL), then crop logos/plates away rather than painting over them; find the exact band edge by row brightness; look at the crop before generating (MULTITOOL 7b). Removing someone else's logo is for the user's personal use only: if the result will be published or sold, say that the render author's rights apply.
 2. Free route: FLUX.1 Kontext Space (`black-forest-labs-flux-1-kontext-dev.hf.space`) via Playwright: input file in `%LOCALAPPDATA%\Temp\.playwright-mcp`, prompt = "ordinary real-life smartphone photo… keep the same geometry, roof colour, materials, camera angle" + concrete real-world imperfections (uneven lawn, dust on paving, reflections in glass).
 3. Save the result: `browser_evaluate` fetch → base64 into a file in that folder → `device_stage_files` → decode.
-4. Upscale: AuraSR-v2 Space (×4) → resize to 3840 px wide; light grade only (WB, slight contrast, lens distortion 1%, small vignette, fine grain). Heavy grading makes it look fake.
+4. Upscale: AuraSR-v2 Space (×4) → resize to 3840 px wide; light grade only (WB, slight contrast, lens distortion 1%, small vignette, fine grain). Heavy grading makes it look fake. Compare graded vs ungraded side by side; keep the more natural one.
 5. Anonymous ZeroGPU quota runs out after ~3 runs: say so and offer the paid route (Creative Claw / CellCog nano-banana) or a retry later.
 
 ## R3. Speech-to-text without local Whisper (private route first)

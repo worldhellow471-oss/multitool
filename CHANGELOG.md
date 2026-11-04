@@ -2,6 +2,11 @@
 
 All notable changes to MULTITOOL.
 
+## v13 (2026-11-04)
+- New 7b "critical check": after key steps (crop, cut list, generation, first render) MULTITOOL measures instead of assuming, looks at the real output, names a concrete defect and fixes its cause.
+- Brakes so the check never ruins a result: compare with the previous version and keep the better one, at most 2 fix rounds, respect the user's choices, taste goes to an offered alternative.
+- Recipes: measure before cropping; compare graded and ungraded photo.
+
 ## v12 (2026-11-04)
 - Description rewritten with trigger phrases (English and Russian) and clear "don't use" cases, so MULTITOOL fires when it should and stays quiet otherwise.
 - Core file cut from 247 to 157 lines: less context spent on every run.

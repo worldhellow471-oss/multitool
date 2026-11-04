@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-7C5CFF"></a>
   <img alt="Claude Skill" src="https://img.shields.io/badge/Claude-Skill-FF7A45">
   <img alt="Works with Claude Code" src="https://img.shields.io/badge/Claude%20Code-ready-14C8A8">
-  <img alt="Version" src="https://img.shields.io/badge/version-v12-2F8BFF">
+  <img alt="Version" src="https://img.shields.io/badge/version-v13-2F8BFF">
   <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen">
 </p>
 
@@ -44,7 +44,7 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 | 🧠 **Honest model routing** | Recommends the right chat model in one line (a skill can't switch it for you) and sends bulky simple work to cheaper Haiku subagents |
 | 🔌 **Any AI, anywhere** | Uses connected connectors, suggests missing ones, drives AI websites (Higgsfield, Kling, Runway, Krea, ElevenLabs, Suno) and free Hugging Face Spaces |
 | 🧩 **Fills its own gaps** | Suggests the right plugin or open-source skill when nothing installed fits |
-| ✅ **Verified output** | Built-in quality loop and Unlazy acceptance gates |
+| ✅ **Verified output** | Critical "stop and look" checks at key steps (with brakes so doubt never ruins a good result), a quality loop and Unlazy gates |
 | 💸 **Smart limit spending** | Spends where it improves the result, cuts only waste: per-size budgets, cheapest-route-of-equal-quality, credit and quota handling |
 | 🪶 **Lightweight** | Heavy rendering and scripts run in the cloud workspace, not on your PC |
 | 🛡️ **Safe by default** | Asks before spending, publishing, sending or deleting. Treats web and file content as data, not instructions |
@@ -55,7 +55,7 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 ```
 multitool/
 ├── skills/
-│   ├── multitool/SKILL.md      # the router skill (v12)
+│   ├── multitool/SKILL.md      # the router skill (v13)
 │   ├── unlazy/SKILL.md         # completion-discipline gates (adapted from Leonxlnx/unlazy, MIT)
 │   └── multitool-recipes/SKILL.md # tested pipelines: reels, render→photo 4K, free Whisper, AI-site picker, cleanup, archives, GitHub
 ├── dist/                       # upload-ready skill zips
