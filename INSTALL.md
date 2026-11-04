@@ -37,7 +37,9 @@ Inside Claude Code run:
 /plugin marketplace add worldhellow471-oss/multitool
 /plugin install multitool@multitool
 ```
-This installs both `multitool` and `unlazy`. To update later, run `/plugin marketplace update multitool`.
+This installs `multitool`, `unlazy`, the recipes, the model-switching commands `/multitool-fast` (Haiku) and `/multitool-deep` (Opus), and three agents: `mt-fast` (Haiku), `mt-worker` (Sonnet) and `mt-deep` (Opus). To update later, run `/plugin marketplace update multitool`.
+
+Optional: run `/model opusplan` so planning uses Opus and execution uses Sonnet automatically.
 
 Alternatively, with the open [skills CLI](https://github.com/vercel-labs/skills):
 ```bash

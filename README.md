@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-7C5CFF"></a>
   <img alt="Claude Skill" src="https://img.shields.io/badge/Claude-Skill-FF7A45">
   <img alt="Works with Claude Code" src="https://img.shields.io/badge/Claude%20Code-ready-14C8A8">
-  <img alt="Version" src="https://img.shields.io/badge/version-v13-2F8BFF">
+  <img alt="Version" src="https://img.shields.io/badge/version-v14-2F8BFF">
   <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen">
 </p>
 
@@ -41,7 +41,7 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 |---|---|
 | 🧭 **Smart routing** | Ranking rules applied to your live skill list, plus worked examples. Nothing goes stale |
 | 🔄 **Always current** | Reads installed tools fresh on each run. No manual updates when you add a plugin |
-| 🧠 **Honest model routing** | Recommends the right chat model in one line (a skill can't switch it for you) and sends bulky simple work to cheaper Haiku subagents |
+| 🧠 **Real model switching in Claude Code** | Haiku / Sonnet / Opus agents and `/multitool-fast` · `/multitool-deep` commands; in the Claude apps it recommends the right model in one line |
 | 🔌 **Any AI, anywhere** | Uses connected connectors, suggests missing ones, drives AI websites (Higgsfield, Kling, Runway, Krea, ElevenLabs, Suno) and free Hugging Face Spaces |
 | 🧩 **Fills its own gaps** | Suggests the right plugin or open-source skill when nothing installed fits |
 | ✅ **Verified output** | Critical "stop and look" checks at key steps (with brakes so doubt never ruins a good result), a quality loop and Unlazy gates |
@@ -55,9 +55,12 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 ```
 multitool/
 ├── skills/
-│   ├── multitool/SKILL.md      # the router skill (v13)
+│   ├── multitool/SKILL.md      # the router skill (v14)
 │   ├── unlazy/SKILL.md         # completion-discipline gates (adapted from Leonxlnx/unlazy, MIT)
+│   ├── multitool-fast/SKILL.md  # Claude Code: whole turn on Haiku
+│   ├── multitool-deep/SKILL.md  # Claude Code: whole turn on Opus
 │   └── multitool-recipes/SKILL.md # tested pipelines: reels, render→photo 4K, free Whisper, AI-site picker, cleanup, archives, GitHub
+├── agents/                     # mt-fast (Haiku), mt-worker (Sonnet), mt-deep (Opus)
 ├── dist/                       # upload-ready skill zips
 ├── scheduled/
 │   └── weekly-evolution.md     # optional weekly self-review prompt
@@ -110,6 +113,23 @@ request ─► classify (size · risk · type)
         ─► quality loop + Unlazy gates
         ─► deliver ─► learn ─► Evolution loop
 ```
+
+## Model switching in Claude Code
+
+Installed as a plugin, MULTITOOL really switches models instead of only recommending one:
+
+| What | Model | Use it for |
+|---|---|---|
+| `/multitool-fast <task>` | Haiku | quick, simple tasks: whole turn on the cheapest model |
+| `/multitool <task>` | your current model | everything else; hands parts to the agents below |
+| `/multitool-deep <task>` | Opus | architecture, tricky bugs, big research, final review |
+| agent `mt-fast` | Haiku | scans, bulk edits, summaries of big outputs |
+| agent `mt-worker` | Sonnet | ordinary drafts, scripts, routine code |
+| agent `mt-deep` | Opus | hard decisions, independent review |
+
+Tip: `/model opusplan` makes Claude Code plan on Opus and execute on Sonnet automatically.
+
+> In the Claude apps (claude.ai, desktop, mobile) skills can't change the chat model, so MULTITOOL recommends one in a single line instead.
 
 ## Make it yours: `my-profile`
 MULTITOOL loads an optional `my-profile` skill so it never asks the same thing twice. Create one with your language, formats, brands, likes and dislikes:
