@@ -3,7 +3,7 @@ name: multitool
 description: "MULTITOOL: one entry point for any multi-step task. It picks the best installed skills, plugins, connectors, AI sites and subagent models, checks the result and spends limits where they pay off. Use on /multitool, or on any request to make, edit, convert, find, research, analyse, plan, publish, schedule or automate something, in any language. Russian examples: сделай, создай, смонтируй, отредактируй, найди, изучи, проанализируй, опубликуй, автоматизируй, улучши. Not for small talk, a one-line fact, a quick translation or a tiny edit, or when the user names one exact skill or tool (then use that one directly)."
 ---
 
-# MULTITOOL v13
+# MULTITOOL v14
 
 Router in front of everything installed. Companions: `my-profile` (who the user is: language, formats, brands, dislikes) and `multitool-recipes` (tested step-by-step pipelines). The skill list in context is the source of truth; never trust a remembered list over it.
 
@@ -65,7 +65,7 @@ Order: connected connector → suggest one (`SearchMcpRegistry` → `SuggestConn
 Higgsfield connector: browse results, models and credits only; generate on higgsfield.ai in the browser.
 
 ## 5. Models: what a skill can and cannot switch
-A skill cannot change the current chat's model, and it does not reliably know which one is running.
+In the Claude apps a skill cannot change the current chat's model, and it does not reliably know which one is running. In Claude Code it can: see 5d.
 - **5a. Chat:** for a clearly routine task (rewrite, list, captions, simple edit) say once: "this works on Sonnet or Haiku too; that saves limits". For hard reasoning, big research or a high-stakes final review: "Opus is better for this". Advise by task type only; never claim which model is active. Say it once per chat, don't block, and respect a stated preference.
 - **5b. Subagents** (pass `model` explicitly), only when they keep bulky output out of the main chat:
   - haiku: scan or summarise big listings, logs or 50+ results; mechanical batch edits;
@@ -73,6 +73,16 @@ A skill cannot change the current chat's model, and it does not reliably know wh
   - opus: an independent review of high-stakes work.
   None for S tasks, at most 2 in parallel, a tight brief, a short result.
 - **5c. Scheduled tasks:** the model is not chosen at creation. To make one cheaper, offer in one line: "switch the weekly task to Sonnet?" Change it (`update_trigger`) only after an explicit yes.
+- **5d. Claude Code with the MULTITOOL plugin: real switching.**
+  - Delegate parts to the plugin agents, which run on their own model:
+    - `mt-fast` (Haiku): mechanical work, scans, bulk edits;
+    - `mt-worker` (Sonnet): ordinary drafts and code;
+    - `mt-deep` (Opus): hard decisions and the final review.
+  - Tell the user about the commands once:
+    - `/multitool-fast <task>`: the whole turn on Haiku;
+    - `/multitool-deep <task>`: the whole turn on Opus;
+    - `/model opusplan`: Opus plans, Sonnet executes, automatically.
+  - Check that the agents exist (the agent list) before delegating to them; if they don't, use 5b.
 
 ## 6. Missing or weak skill → offer before starting
 1. `SearchPlugins` (+ `SearchSkills`) with 3–6 task keywords → `SuggestPluginInstall` / `SuggestSkills` (proactive), one line why, mention whether it is paid.
@@ -170,3 +180,4 @@ Spend where the user sees or relies on the result: the deliverable, its quality,
   - **added:** a trigger-rich description; a concrete preflight; honest 5a/5c; a stall rule; examples.
   - **removed:** the long cheat-sheet (it went stale; the live list is the source); numeric call budgets (nobody counted them); the red-flag table (merged into 9); user-specific settings (now in my-profile); the G6 "keep old rules" gate (it blocked pruning).
 - v13 2026-11-04: 7b, a critical check at key steps (measure, look, concrete defect, fix the cause) with brakes (compare with the previous version, at most 2 rounds, respect the user's choices); a final 7b look in the quality loop. Nothing removed.
+- v14 2026-11-04: 5d, real model switching in Claude Code: plugin agents mt-fast/mt-worker/mt-deep (Haiku/Sonnet/Opus), the commands /multitool-fast and /multitool-deep, and an opusplan tip. Tested live: the agent ran on Haiku, and /multitool-fast ran the whole turn on Haiku. Nothing removed.
