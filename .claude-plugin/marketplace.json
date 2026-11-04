@@ -7,7 +7,7 @@
       "name": "multitool",
       "source": "./",
       "description": "Routes every task to the best installed tool and keeps improving itself. Includes Unlazy gates.",
-      "version": "7.0.0"
+      "version": "8.0.0"
     }
   ]
 }

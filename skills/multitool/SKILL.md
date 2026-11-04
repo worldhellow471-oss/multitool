@@ -3,7 +3,7 @@ name: multitool
 description: MULTITOOL: one entry point for any task (make, edit, find, analyse, publish, automate). Picks the best installed skills, plugins, connectors and tools each time, spends limits wisely, and keeps improving itself.
 ---
 
-# MULTITOOL v7
+# MULTITOOL v8
 
 One entry point for everything the user has: skills, plugins, connectors (MCP), artifact types, subagents and their models, the built-in browser, the computer link, Claude's own tools and memory. Nothing is hard-coded: the inventory is read fresh every run, so anything newly installed is used automatically. When nothing fits, MULTITOOL finds a suitable skill/plugin and offers it.
 
@@ -72,14 +72,28 @@ Fit rating of best installed option: GOOD (specialised and working) / WEAK (gene
 | Context / limits | context-compactor, headroom, active-memory handoff, token-usage |
 | File conversion | conversiontools, ffmpeg |
 
-## 5. Choose model & effort (for delegated work)
-The main chat model is whatever the user selected; MULTITOOL picks models only for subagents it launches.
-| Work | Model | Effort |
+## 5. Model routing (what a skill can and cannot switch)
+**Hard limit:** a skill cannot change the model of the current chat; only the user can, in the model menu. MULTITOOL routes in the two ways it really can:
+
+**5a. Recommend the right chat model at the start (one line, only on a clear mismatch).**
+| Task looks like | Best chat model | Say (once, before starting) |
 |---|---|---|
-| Mechanical: rename, reformat, bulk captions, file shuffling, simple extraction | haiku | low |
-| Standard: drafting, summarising, scripting, routine code, data cleanup | sonnet | medium |
-| Hard: architecture, tricky bugs, deep research synthesis, careful reasoning, final review | opus | high |
-Rules: no subagents for S tasks. Use them for L tasks that split into independent parts, or for an independent final check of high-stakes work. Max 2 in parallel. Match agent type to job (Explore for search, Plan for design, hzblj-skills:fast-worker / deep-reasoner for code, Zapier MCP Specialist for Zapier). Set model/effort only when it clearly saves cost or raises quality.
+| Quick answer, rewrite, translation, simple file edit, captions, list | Haiku / Sonnet | "Sonnet is enough for this: switch the model in the menu to save limits. Starting." |
+| Typical M task: post, script, doc, routine code, edit | Sonnet | only if the user is on Opus and the task is clearly routine |
+| Hard reasoning, big research, architecture, tricky bug, final high-stakes review | Opus | "This one is hard: Opus is the better pick." only if the user is on a lighter model |
+Never block on it: say it once and keep working on the current model. Don't repeat it in the same chat; respect a stated preference.
+
+**5b. Delegate to a cheaper subagent model when it actually saves the main context.**
+Launch a subagent with an explicit `model` when the work is bulky but simple, because its raw output stays out of the main chat:
+| Work | model | Typical case |
+|---|---|---|
+| Scan / filter / summarise big outputs | haiku | huge directory listings, long logs, many files, 50+ search results → return a 10-line summary |
+| Mechanical batch edits | haiku | rename, reformat, bulk captions, fill a template many times |
+| Standard drafting in parallel | sonnet | several independent sections or variants at once |
+| Independent final review of high-stakes work | opus | a reviewer that did not produce the work |
+Rules: no subagent for S tasks or when the whole job fits in ~5 tool calls; max 2 in parallel; give the subagent a tight brief and ask for a short result. Match agent type to job (Explore for search, Plan for design, hzblj-skills:fast-worker / deep-reasoner for code, Zapier MCP Specialist for Zapier).
+
+**5c. Scheduled tasks:** create routine scheduled tasks on a lighter model when the scheduling tool allows choosing it; keep Opus only for runs that need hard reasoning.
 
 ## 6. Missing or weak skill → offer install BEFORE starting
 If fit is NONE/WEAK:
@@ -115,7 +129,7 @@ If fit is NONE/WEAK:
 | Size | Tool calls | Subagents | Images/screenshots | Plan & checkpoints |
 |---|---|---|---|---|
 | S | up to ~5 | none | 0–1 | answer in place, no task list |
-| M | up to ~20 | none | up to ~5, tiled | task list; one draft before polish |
+| M | up to ~20 | none, except one haiku helper for bulky scans (5b) | up to ~5, tiled | task list; one draft before polish |
 | L | as needed, staged | max 2, only for independent parts or final review | tiled sheets only | say the plan + rough cost in one line; checkpoint after each stage |
 Raise the budget without asking when a "spend more" condition above holds; lower it for quick questions and drafts. If a task grows far beyond its starting budget, say so in one line and keep going if the value is there.
 
@@ -137,6 +151,13 @@ Try routes in this order, but take a pricier one straight away when it clearly g
 - Don't re-read files you just wrote or already have; read large files in parts (headroom skill for huge ones).
 - Load a skill's SKILL.md only when its stage starts; skim with grep before reading a 300+ line file in full.
 - Model/effort: haiku or low effort for mechanical subagent work; high effort only for hard reasoning (section 5).
+
+### 9c+. Cost red flags (stop and pick the cheap way)
+- Recursive listing of a big folder (Desktop, home, AppData) → list one level, filter by name/date, or hand it to a haiku subagent (5b).
+- More than 3 screenshots in a row → switch to text extraction (get_page_text, accessibility snapshot) or one tiled sheet.
+- A generation or upload failed twice → stop retrying, say why in one line, offer the next route.
+- A file or tool result over ~20k characters → write it to a file and grep it; never paste it into the chat.
+- Re-explaining a long answer the user did not ask to repeat → link to the earlier result instead.
 
 ### 9d. Paid credits and quotas
 - Before the first paid call in a task, check the balance once if a balance tool exists (e.g. vidiq_balance).
@@ -199,3 +220,4 @@ Procedure, always with unlazy discipline:
 - v5 2026-11-04: weekly review: cheat-sheet rows for installed but unlisted plugins (business ops, Microsoft 365, learning, second opinion, pdf-viewer, SEO audit, Playwright).
 - v6 2026-11-04: limit budget: per-size budgets, cheapest-route spend order, token-saving rules, paid-credit and quota handling, context management.
 - v7 2026-11-04: limits are spent situationally: value-over-thrift principle, spend-more / save / waste triggers, budgets are defaults not caps, pricier route allowed when clearly better.
+- v8 2026-11-04: honest model routing: one-line chat-model recommendation (skill cannot switch the chat model), cheaper subagent models for bulky simple work, lighter models for scheduled tasks; cost red flags.
