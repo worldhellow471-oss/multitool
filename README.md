@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-7C5CFF"></a>
   <img alt="Claude Skill" src="https://img.shields.io/badge/Claude-Skill-FF7A45">
   <img alt="Works with Claude Code" src="https://img.shields.io/badge/Claude%20Code-ready-14C8A8">
-  <img alt="Version" src="https://img.shields.io/badge/version-v11-2F8BFF">
+  <img alt="Version" src="https://img.shields.io/badge/version-v12-2F8BFF">
   <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen">
 </p>
 
@@ -39,7 +39,7 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 
 | | |
 |---|---|
-| 🧭 **Smart routing** | Ranking rules plus a cheat-sheet for 20+ task types: video, photo, design, docs, slides, data, research, automation, code |
+| 🧭 **Smart routing** | Ranking rules applied to your live skill list, plus worked examples. Nothing goes stale |
 | 🔄 **Always current** | Reads installed tools fresh on each run. No manual updates when you add a plugin |
 | 🧠 **Honest model routing** | Recommends the right chat model in one line (a skill can't switch it for you) and sends bulky simple work to cheaper Haiku subagents |
 | 🔌 **Any AI, anywhere** | Uses connected connectors, suggests missing ones, drives AI websites (Higgsfield, Kling, Runway, Krea, ElevenLabs, Suno) and free Hugging Face Spaces |
@@ -55,7 +55,7 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 ```
 multitool/
 ├── skills/
-│   ├── multitool/SKILL.md      # the router skill (v11)
+│   ├── multitool/SKILL.md      # the router skill (v12)
 │   ├── unlazy/SKILL.md         # completion-discipline gates (adapted from Leonxlnx/unlazy, MIT)
 │   └── multitool-recipes/SKILL.md # tested pipelines: reels, render→photo 4K, free Whisper, AI-site picker, cleanup, archives, GitHub
 ├── dist/                       # upload-ready skill zips
@@ -132,7 +132,7 @@ description: My standing preferences, formats, brands and dislikes. Load at the 
 - [ ] More languages in the README
 
 ## Contributing
-Ideas, new cheat-sheet rows and bug reports are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Ideas, new recipes and bug reports are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 If MULTITOOL saves you time, **⭐ star the repo** so other Claude users can find it.
 

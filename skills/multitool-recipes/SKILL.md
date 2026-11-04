@@ -18,17 +18,18 @@ Tested pipelines. Follow the matching recipe step by step instead of improvising
 8. QC: 10 frames tiled, levels per section, duration exact, size < 100 MB. Deliver in chat (> 30 MB can't be written to the PC).
 
 ## R2. Render or sketch → real photo, 4K
-1. Crop away logos/plates rather than painting over them; check the exact band edge by row brightness.
+1. Crop away logos/plates rather than painting over them; check the exact band edge by row brightness. Removing someone else's logo is for the user's personal use only: if the result will be published or sold, say that the render author's rights apply.
 2. Free route: FLUX.1 Kontext Space (`black-forest-labs-flux-1-kontext-dev.hf.space`) via Playwright: input file in `%LOCALAPPDATA%\Temp\.playwright-mcp`, prompt = "ordinary real-life smartphone photo… keep the same geometry, roof colour, materials, camera angle" + concrete real-world imperfections (uneven lawn, dust on paving, reflections in glass).
 3. Save the result: `browser_evaluate` fetch → base64 into a file in that folder → `device_stage_files` → decode.
 4. Upscale: AuraSR-v2 Space (×4) → resize to 3840 px wide; light grade only (WB, slight contrast, lens distortion 1%, small vignette, fine grain). Heavy grading makes it look fake.
 5. Anonymous ZeroGPU quota runs out after ~3 runs: say so and offer the paid route (Creative Claw / CellCog nano-banana) or a retry later.
 
-## R3. Speech-to-text without local Whisper
-1. Extract mono 16 kHz mp3 (24–32 kbps) per clip.
-2. The file needs a public URL: ask the user before a temporary branch in their own repo, push audio only, transcribe, delete the branch right after (via the GitHub branches page if git push --delete fails).
-3. In the browser on `hf-audio-whisper-large-v3.hf.space`: fetch the mp3 → `/gradio_api/upload` → `/gradio_api/call/transcribe` → read the stream. One clip per call; null = quota hit.
-4. Word timing: split phrases at energy dips (100 ms RMS), distribute words by syllables. Tell the user timing is approximate; fix obvious mishearings by meaning and say which.
+## R3. Speech-to-text without local Whisper (private route first)
+1. Extract mono 16 kHz mp3 (24–32 kbps) per clip; cut into ≤ 60 s chunks.
+2. Private route (default): write the chunks to the PC folder `%LOCALAPPDATA%\Temp\.playwright-mcp` (device_commit_files) → Playwright on `hf-audio-whisper-large-v3.hf.space`: `browser_file_upload` the chunk → Submit → `browser_wait_for` the text → read it. Nothing goes to a public repo; the audio is seen only by the HF Space. Tell the user that once.
+3. Alternatives: an installed transcription skill (`transcribe-so`, `local-whisper` if its local server works per preflight). A temporary public GitHub branch only if the user explicitly agrees for this task; delete it right after.
+4. Quota: empty result or "Error" = ZeroGPU quota hit → stop, say so, offer a retry later or a paid tool.
+5. Word timing: split phrases at energy dips (100 ms RMS), distribute words by syllables. Say the timing is approximate; fix obvious mishearings by meaning and say which.
 
 ## R4. AI website picker (user signs in and pays there)
 | Need | First choice | Alternatives |
