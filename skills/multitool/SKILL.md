@@ -3,7 +3,7 @@ name: multitool
 description: MULTITOOL: one entry point for any task (make, edit, find, analyse, publish, automate). Picks the best installed skills, plugins, connectors and tools each time, spends limits wisely, and keeps improving itself.
 ---
 
-# MULTITOOL v8
+# MULTITOOL v9
 
 One entry point for everything the user has: skills, plugins, connectors (MCP), artifact types, subagents and their models, the built-in browser, the computer link, Claude's own tools and memory. Nothing is hard-coded: the inventory is read fresh every run, so anything newly installed is used automatically. When nothing fits, MULTITOOL finds a suitable skill/plugin and offers it.
 
@@ -152,12 +152,18 @@ Try routes in this order, but take a pricier one straight away when it clearly g
 - Load a skill's SKILL.md only when its stage starts; skim with grep before reading a 300+ line file in full.
 - Model/effort: haiku or low effort for mechanical subagent work; high effort only for hard reasoning (section 5).
 
-### 9c+. Cost red flags (stop and pick the cheap way)
-- Recursive listing of a big folder (Desktop, home, AppData) → list one level, filter by name/date, or hand it to a haiku subagent (5b).
-- More than 3 screenshots in a row → switch to text extraction (get_page_text, accessibility snapshot) or one tiled sheet.
-- A generation or upload failed twice → stop retrying, say why in one line, offer the next route.
-- A file or tool result over ~20k characters → write it to a file and grep it; never paste it into the chat.
-- Re-explaining a long answer the user did not ask to repeat → link to the earlier result instead.
+### 9c+. Cost red flags: pause and decide, never a ban
+A red flag means "think for five seconds", not "stop". Some work simply costs a lot, and then you spend it, the smart way. For each flag: cheap default first; if the case below says the spend is justified, go ahead and do it fully.
+| Red flag | Cheap default | Spend is justified when… | Then do it this way |
+|---|---|---|---|
+| Recursive listing of a big folder (Desktop, home, AppData) | one level + filter by name, type or date | the user asked for a full audit or cleanup, or the file can be anywhere | full listing saved to a file, analysed in code or by a haiku subagent (5b); only the summary goes to the chat |
+| Many screenshots / images | text extraction (get_page_text, snapshot) | the result is visual: design, video frames, photo quality, layout bugs, captchas | tiled contact sheets, downscaled; full size only for the final check |
+| A generation or upload failed twice | stop retrying the same way | the generated thing is the deliverable (photo, video, voice) | change something each time (prompt, model, tool, route); after 3 tries say what's going on and offer options, incl. paid |
+| A tool result over ~20k characters | write to a file, grep it | the user needs the full content (a document, a transcript, a full list) | keep it in a file, deliver the file, summarise in the chat |
+| Re-explaining a long answer | link to the earlier result | the user asks again or didn't get it | rephrase shorter and clearer, not repeat |
+| Subagents | none for small tasks | many independent parts, a huge scan, or an independent check of important work | max 2 in parallel, cheapest model that can do the part (5b) |
+| Paid credits | free route first | free quality is clearly worse for a final or public result | ask once with tool + price, then spend |
+Rule of thumb: spend on what the user will see or rely on (the deliverable, its quality, verification); save on everything around it (searching, waiting, repeating, dumping output).
 
 ### 9d. Paid credits and quotas
 - Before the first paid call in a task, check the balance once if a balance tool exists (e.g. vidiq_balance).
@@ -221,3 +227,4 @@ Procedure, always with unlazy discipline:
 - v6 2026-11-04: limit budget: per-size budgets, cheapest-route spend order, token-saving rules, paid-credit and quota handling, context management.
 - v7 2026-11-04: limits are spent situationally: value-over-thrift principle, spend-more / save / waste triggers, budgets are defaults not caps, pricier route allowed when clearly better.
 - v8 2026-11-04: honest model routing: one-line chat-model recommendation (skill cannot switch the chat model), cheaper subagent models for bulky simple work, lighter models for scheduled tasks; cost red flags.
+- v9 2026-11-04: red flags reworked into pause-and-decide: each flag has a cheap default, the cases where spending is justified, and how to spend smartly.

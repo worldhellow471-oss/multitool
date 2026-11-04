@@ -9,3 +9,4 @@ All notable changes to MULTITOOL.
 - v6 2026-11-04: limit budget: per-size budgets, cheapest-route spend order, token-saving rules, paid-credit and quota handling, context management.
 - v7 2026-11-04: limits are spent situationally: value-over-thrift principle, spend-more / save / waste triggers, budgets are defaults not caps, pricier route allowed when clearly better.
 - v8 2026-11-04: honest model routing: one-line chat-model recommendation (skill cannot switch the chat model), cheaper subagent models for bulky simple work, lighter models for scheduled tasks; cost red flags.
+- v9 2026-11-04: red flags reworked into pause-and-decide: each flag has a cheap default, the cases where spending is justified, and how to spend smartly.
