@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-7C5CFF"></a>
   <img alt="Claude Skill" src="https://img.shields.io/badge/Claude-Skill-FF7A45">
   <img alt="Works with Claude Code" src="https://img.shields.io/badge/Claude%20Code-ready-14C8A8">
-  <img alt="Version" src="https://img.shields.io/badge/version-v10-2F8BFF">
+  <img alt="Version" src="https://img.shields.io/badge/version-v11-2F8BFF">
   <img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen">
 </p>
 
@@ -55,8 +55,9 @@ Install twenty skills and plugins, and Claude now has to decide which one to use
 ```
 multitool/
 ├── skills/
-│   ├── multitool/SKILL.md      # the router skill (v10)
-│   └── unlazy/SKILL.md         # completion-discipline gates (adapted from Leonxlnx/unlazy, MIT)
+│   ├── multitool/SKILL.md      # the router skill (v11)
+│   ├── unlazy/SKILL.md         # completion-discipline gates (adapted from Leonxlnx/unlazy, MIT)
+│   └── multitool-recipes/SKILL.md # tested pipelines: reels, render→photo 4K, free Whisper, AI-site picker, cleanup, archives, GitHub
 ├── dist/                       # upload-ready skill zips
 ├── scheduled/
 │   └── weekly-evolution.md     # optional weekly self-review prompt
@@ -109,6 +110,21 @@ request ─► classify (size · risk · type)
         ─► quality loop + Unlazy gates
         ─► deliver ─► learn ─► Evolution loop
 ```
+
+## Make it yours: `my-profile`
+MULTITOOL loads an optional `my-profile` skill so it never asks the same thing twice. Create one with your language, formats, brands, likes and dislikes:
+```
+---
+name: my-profile
+description: My standing preferences, formats, brands and dislikes. Load at the start of any make/edit/publish task.
+---
+# My profile
+- Language: ...
+- Video: 9:16, 30-60 s, strong hook, no transition whooshes ...
+- Brands: ...
+- Dislikes: ...
+```
+(Idea adapted from the open "know-me" skill by poorvith-mp, MIT.)
 
 ## Roadmap
 - [ ] Community-maintained cheat-sheet packs (creators, developers, marketers, students)

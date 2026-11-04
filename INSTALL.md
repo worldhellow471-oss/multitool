@@ -18,6 +18,7 @@ Install **both**. Setup takes about 2 minutes.
 1. **Download the ready-made skill packages** from the [`dist/`](dist) folder:
    - [`multitool-skill.zip`](dist/multitool-skill.zip)
    - [`unlazy-skill.zip`](dist/unlazy-skill.zip)
+   - [`multitool-recipes-skill.zip`](dist/multitool-recipes-skill.zip) (optional, recommended)
 
    *(Or click **Code → Download ZIP** at the top of this page and find them in `dist/`.)*
 2. Open Claude and go to **Settings → Capabilities → Skills**.

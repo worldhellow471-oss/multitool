@@ -3,9 +3,9 @@ name: multitool
 description: MULTITOOL: one entry point for any task (make, edit, find, analyse, publish, automate). Picks the best installed skills, plugins, connectors and tools each time, spends limits wisely, and keeps improving itself.
 ---
 
-# MULTITOOL v10
+# MULTITOOL v11
 
-One entry point for everything the user has: skills, plugins, connectors (MCP), artifact types, subagents and their models, the built-in browser, the computer link, Claude's own tools and memory. Nothing is hard-coded: the inventory is read fresh every run, so anything newly installed is used automatically. When nothing fits, MULTITOOL finds a suitable skill/plugin and offers it.
+One entry point for everything the user has (companions: `my-profile` = who the user is (create your own; template in README); `multitool-recipes` = proven step-by-step pipelines): skills, plugins, connectors (MCP), artifact types, subagents and their models, the built-in browser, the computer link, Claude's own tools and memory. Nothing is hard-coded: the inventory is read fresh every run, so anything newly installed is used automatically. When nothing fits, MULTITOOL finds a suitable skill/plugin and offers it.
 
 Reply in the user's language. Messages short. Results over narration.
 
@@ -25,8 +25,22 @@ This classification drives every choice below, including the limit budget (secti
 1. Read the available skills list in context (names + descriptions). Do not open SKILL.md files yet.
 2. If needed: ListPlugins once; ToolSearch for deferred tools by keyword.
 3. Note what works now: connected MCP (Zapier, Canva, Notion, Telegram, Adobe, Exa…), artifact types (Slides, Docs, Sheets, Design, Dashboard, Whiteboard, Tasks, Motion), built-in browser, computer link, failing local servers (missing Bun/Python/sh).
-4. Recall user context: memory skills (e.g. project-memory, memory-toolkit) for this topic if available; respect saved preferences (language, formats, budget).
+4. Load `my-profile` (if installed) for language, formats, brands, likes/dislikes; respect them without asking again.
+5. If the task matches a pipeline in `multitool-recipes`, load that skill and follow the recipe instead of improvising.
+6. Preflight (only for tools this task needs): known-broken local servers, empty credits, expired sign-ins. Pick a working tool up front instead of discovering the failure mid-task.
 Re-check only when the user installs something new.
+
+### 2b. Known limits and the fastest workaround (go straight to the workaround)
+| Can't do | Do instead |
+|---|---|
+| Switch the chat model | one-line recommendation (5a) |
+| Create a public repo / publish as the user | fill the form, the user clicks the final button; then push via the attached repo |
+| Delete files on the PC | a script that sends listed files to the Recycle Bin; the user runs it |
+| Type passwords, pay, solve captchas | the user does that step; continue right after |
+| Download from most sites in the cloud shell | built-in browser / Playwright fetch, then stage the file |
+| Upload a file from the PC in Playwright | put it in `%LOCALAPPDATA%\Temp\.playwright-mcp` first |
+| Write files > 30 MB to the PC | deliver in chat (SendUserFile); the user downloads |
+| Speech-to-text locally | HF Whisper Space via browser (recipe), or the user's transcription tool |
 
 ## 3. Understand the request
 Result, platform, format/size (9:16, A4, .docx…), language, audience, deadline, budget (free only? sign-ins ok?), destination (chat, artifact, Desktop, published). If S/M and clear → start. If L and ambiguous or expensive to redo → ask 1–3 short questions (AskUserQuestion) first.
@@ -77,15 +91,8 @@ Fit rating of best installed option: GOOD (specialised and working) / WEAK (gene
 Order: connected connector → suggest a connector → AI website in a browser → free HF Space → paid AI plugin.
 1. **Connected MCP connectors:** check `ListConnectors` (`enabledInChat: true` = usable now). Known: Higgsfield AI (browse generations, models, credits, import Claude Motion MP4; it cannot generate, so generate on higgsfield.ai in the browser), Hugging Face (Hub search, Spaces), vidIQ (credits), Microsoft 365; plus plugin connectors (Canva, Notion, Zapier, Adobe, Figma, Telegram).
 2. **Missing connector:** `SearchMcpRegistry` → `SuggestConnectors`; the user connects it in claude.ai settings. Say which one and why in one line.
-3. **AI websites through the browser** (built-in browser, or Playwright MCP for file uploads). The user signs in and pays there; you drive the page and download the result.
-| Need | Sites |
-|---|---|
-| Video from text/photo | higgsfield.ai, klingai.com, runwayml.com, lumalabs.ai, hailuoai.video, pika.art |
-| Images / photo edits / render → photo | higgsfield.ai, krea.ai, leonardo.ai, ideogram.ai, HF FLUX Kontext |
-| Voice / music | elevenlabs.io, suno.com, udio.com |
-| Upscale | HF AuraSR / Finegrain, krea.ai |
-| Transcription | HF Whisper large-v3 Space |
-4. **Free HF Space recipe (tested):** Playwright can upload only from `%LOCALAPPDATA%\Temp\.playwright-mcp` → request access to that folder, put the input there, open `<space>.hf.space`, upload, fill the prompt, Run, wait 30–60 s; save the result with `browser_evaluate` (fetch → base64) into a file in that folder (absolute path), then `device_stage_files` and decode. Anonymous ZeroGPU quota is small: one retry, then another route; signing in to HF in that browser raises the quota.
+3. **AI websites through the browser** (Higgsfield, Kling, Runway, Krea, Leonardo, ElevenLabs, Suno, HF Spaces): the user signs in and pays there; you drive the page and download the result. Site picker and the tested free HF Space steps: `multitool-recipes`.
+4. **Free Hugging Face Spaces** for image edit, upscale, speech-to-text: recipe R2/R3 in `multitool-recipes`; small anonymous quota, one retry, then another route.
 5. **Paid AI plugins** (CellCog, Creative Claw, Abracadabrax, ManyMotions, BlitzReels, Runway API): ask once with tool and price, then use.
 Never type the user's passwords, never solve captchas for them, respect each site's terms, and do not publish someone else's work.
 
@@ -135,6 +142,7 @@ If fit is NONE/WEAK:
 2. Verify: facts vs sources, numbers by running them, files by opening/rendering, pages by looking, videos by checking duration/size/frames.
 3. L or high-risk work: unlazy-style gates, and optionally an independent reviewer subagent that did not produce the work.
 4. Fix what was found, then deliver.
+Quality bars by type (check before "done"): **reel** hook in the first 2 s, no repeated shots, voice clearly above music, subtitles readable, file < 100 MB · **photo/image** the requested resolution really reached, no AI artefacts on faces/text/edges, logo/watermark rules respected · **text** no AI clichés (humanizer), facts sourced · **file/site** opened or rendered once and looked at.
 
 ## 9. Spend limits where they pay off; keep the PC light
 **Principle: value over thrift.** Limits are spent situationally, not minimised. Spend freely where it changes what the user gets; cut only waste. Saving that makes the result worse is a failure, not a win.
@@ -209,6 +217,7 @@ Rule of thumb: spend on what the user will see or rely on (the deliverable, its 
 - Deliver: file (SendUserFile), artifact (published link card), or published post link, with one line of context and at most one next step. No recap of steps.
 - Destination on the PC (e.g. Desktop): write it there via the computer link when connected.
 - Learn: if the user corrected a preference or a choice worked especially well, save it with project-memory / memory skills (when available) so the next run starts smarter.
+- After an L task or any paid step: one line on what was spent (credits, generations, big runs) and why.
 - Self-improve: follow the Evolution loop below.
 
 ### Evolution loop (how MULTITOOL keeps growing)
@@ -233,13 +242,7 @@ Procedure, always with unlazy discipline:
 7. Prune: if the file grows past ~250 lines, merge or drop rules that never fired; size is a cost.
 
 ## Changelog
-- v1 2026-11-03: router with live inventory, ranking rules, cheat-sheet.
-- v2 2026-11-03: renamed MULTITOOL; offers to install missing skills/plugins.
-- v3 2026-11-03: task classification, model/effort choice for subagents, memory, quality loop, safety, new connectors (Zapier, Canva, Notion, Telegram, Adobe).
-- v4 2026-11-03: Evolution loop with unlazy gates, weekly scheduled self-review, changelog, pruning rule.
-- v5 2026-11-04: weekly review: cheat-sheet rows for installed but unlisted plugins (business ops, Microsoft 365, learning, second opinion, pdf-viewer, SEO audit, Playwright).
-- v6 2026-11-04: limit budget: per-size budgets, cheapest-route spend order, token-saving rules, paid-credit and quota handling, context management.
-- v7 2026-11-04: limits are spent situationally: value-over-thrift principle, spend-more / save / waste triggers, budgets are defaults not caps, pricier route allowed when clearly better.
-- v8 2026-11-04: honest model routing: one-line chat-model recommendation (skill cannot switch the chat model), cheaper subagent models for bulky simple work, lighter models for scheduled tasks; cost red flags.
-- v9 2026-11-04: red flags reworked into pause-and-decide: each flag has a cheap default, the cases where spending is justified, and how to spend smartly.
-- v10 2026-11-04: connectors and third-party AI: connector → registry → AI websites (Higgsfield, Kling, Runway, Krea, ElevenLabs, Suno) → free HF Spaces recipe → paid plugins; pruned 3 duplicate rules in 9f.
+- v1–v4 2026-11-03: live-inventory router, ranking rules, cheat-sheet; install suggestions; classification, subagent models, quality loop, safety; Evolution loop with unlazy gates and weekly review.
+- v5–v7 2026-11-04: cheat-sheet rows for unlisted plugins; limit budget; situational, value-over-thrift spending.
+- v8–v10 2026-11-04: honest model routing; red flags as pause-and-decide; connectors and third-party AI services.
+- v11 2026-11-04: companions my-profile and multitool-recipes; preflight; known limits with workarounds (2b); quality bars by output type; spend line after L/paid work; site table and HF recipe moved to recipes.
