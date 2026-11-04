@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <b>One Claude skill that routes every task to the best tool you have and keeps improving itself.</b>
+  <b>One Claude skill that routes every task to the best tool you have and keeps improving itself.</b><br><br><code>/multitool &lt;your task&gt;</code>
 </p>
 
 <p align="center">
@@ -81,13 +81,21 @@ Claude Code, one command:
 
 ## Usage
 
-Just ask for something, and MULTITOOL steps in for any make / edit / research / publish / automate request. You can also call it directly:
+```
+/multitool <your task>
+```
 
+That's it. Type `/multitool` followed by what you want, in plain words, in any language. MULTITOOL picks the best tools, tells you in one line what it chose, and gets to work.
+
+**Examples**
 ```
 /multitool make a carousel from this blog post and schedule it for Instagram
 /multitool research the top 5 note-taking apps and build a comparison sheet
 /multitool turn these product photos into a 15-second ad
+/multitool edit my 9 clips into one 44-second reel with a hook and subtitles
 ```
+
+> Tip: MULTITOOL also steps in on its own for make / edit / research / publish / automate requests, but `/multitool <your task>` is the surest way to call it.
 
 ## How it decides
 

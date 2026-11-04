@@ -69,6 +69,14 @@ Restart Claude Code (or start a new session) so it picks up the skills.
 
 ---
 
+## How to use
+
+```
+/multitool <your task>
+```
+
+Type `/multitool`, a space, then your task in plain words.
+
 ## Check that it works
 
 Start a new chat and type:
